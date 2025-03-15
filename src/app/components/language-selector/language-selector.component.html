@@ -1,0 +1,14 @@
+<div class="language-selector">
+  <button class="current-lang" (click)="toggleDropdown()">
+    {{ currentLang.toUpperCase() }} ⌵
+  </button>
+
+  <div class="dropdown" *ngIf="isOpen">
+    <button
+      *ngFor="let lang of languages"
+      (click)="changeLanguage(lang)"
+      [class.active]="lang === currentLang">
+      {{ lang.toUpperCase() }}
+    </button>
+  </div>
+</div>

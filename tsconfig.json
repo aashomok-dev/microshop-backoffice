@@ -1,27 +1,29 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2022",
-    "module": "ES2022"
+    "target": "es2022",
+    "module": "esnext",
+    "lib": ["es2022", "dom"]
   },
   "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+    "strictInputAccessModifiers": true
+  },
+  "include": ["src/**/*.ts"],  // 🔥 Включаем только нужные файлы
+  "exclude": [
+    "src/test.ts",
+    "src/**/*.spec.ts", // 🔥 Исключаем тестовые файлы
+    "src/app/auth/auth.module.ts",
+    "src/app/app.config.ts",
+    "src/app/auth/auth-routing.module.ts",
+    "src/app/app.config.ts"
+  ]
 }

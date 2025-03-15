@@ -1,0 +1,39 @@
+<div class="register-container">
+  <h2>{{ 'auth.registerTitle' | translate }}</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()"> <!-- ✅ Исправлено -->
+
+    <label for="name">{{ 'auth.nameLabel' | translate }}</label>
+    <input id="name" formControlName="name" type="text" placeholder="{{ 'auth.namePlaceholder' | translate }}">
+    <div class="error" *ngIf="name?.invalid && isTouched('name')">
+      <span *ngIf="name?.errors?.['required']">{{ 'auth.nameRequired' | translate }}</span>
+    </div>
+
+    <label for="email">{{ 'auth.emailLabel' | translate }}</label>
+    <input id="email" formControlName="email" type="email" placeholder="{{ 'auth.emailPlaceholder' | translate }}">
+    <div class="error" *ngIf="email?.invalid && isTouched('email')">
+      <span *ngIf="email?.errors?.['required']">{{ 'auth.emailRequired' | translate }}</span>
+      <span *ngIf="email?.errors?.['email']">{{ 'auth.invalidEmail' | translate }}</span>
+    </div>
+
+    <label for="password">{{ 'auth.passwordLabel' | translate }}</label>
+    <input id="password" formControlName="password" type="password" placeholder="••••••">
+    <div class="error" *ngIf="password?.invalid && isTouched('password')">
+      <span *ngIf="password?.errors?.['required']">{{ 'auth.passwordRequired' | translate }}</span>
+      <span *ngIf="password?.errors?.['minlength']">{{ 'auth.passwordMinLength' | translate }}</span>
+    </div>
+
+    <label for="confirmPassword">{{ 'auth.confirmPasswordLabel' | translate }}</label>
+    <input id="confirmPassword" formControlName="confirmPassword" type="password" placeholder="{{ 'auth.confirmPasswordPlaceholder' | translate }}">
+    <div class="error" *ngIf="confirmPassword?.invalid && isTouched('confirmPassword')">
+      <span *ngIf="confirmPassword?.errors?.['required']">{{ 'auth.confirmPasswordRequired' | translate }}</span>
+      <span *ngIf="confirmPassword?.errors?.['minlength']">{{ 'auth.passwordMinLength' | translate }}</span>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">
+      {{ 'auth.registerBtn' | translate }}
+    </button>
+
+    <a routerLink="/login">{{ 'auth.backToLogin' | translate }}</a> <!-- ✅ Исправлено -->
+  </form>
+</div>

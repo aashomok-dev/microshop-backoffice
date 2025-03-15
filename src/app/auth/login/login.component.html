@@ -1,0 +1,60 @@
+<div class="login-container">
+  <h2>{{ 'auth.welcome' | translate }}</h2>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <label for="email">{{ 'auth.emailLabel' | translate }}</label>
+    <input
+      id="email"
+      name="email"
+      formControlName="email"
+      type="email"
+      autocomplete="email"
+      placeholder="{{ 'auth.emailPlaceholder' | translate }}"
+    >
+    <div class="error" *ngIf="email?.invalid && isTouched('email')">
+      <span *ngIf="email?.errors?.['required']">{{ 'auth.emailRequired' | translate }}</span>
+      <span *ngIf="email?.errors?.['email']">{{ 'auth.invalidEmail' | translate }}</span>
+    </div>
+
+    <label for="password">{{ 'auth.passwordLabel' | translate }}</label>
+    <input
+      id="password"
+      name="password"
+      formControlName="password"
+      type="password"
+      autocomplete="current-password"
+      placeholder="••••••"
+    >
+    <div class="error" *ngIf="password?.invalid && isTouched('password')">
+      <span *ngIf="password?.errors?.['required']">{{ 'auth.passwordRequired' | translate }}</span>
+      <span *ngIf="password?.errors?.['minlength']">{{ 'auth.passwordMinLength' | translate }}</span>
+    </div>
+
+    <button type="submit" [disabled]="loginForm.invalid">
+      {{ 'auth.loginBtn' | translate }}
+    </button>
+
+    <a routerLink="/forgot-password">{{ 'auth.forgotPasswordLink' | translate }}</a>
+  </form>
+
+  <div class="social-login">
+    <p>{{ 'auth.orContinueWith' | translate }}</p>
+
+    <button class="google-btn">
+      <img src="assets/images/google.svg" width="24" height="auto" alt="Google">
+      {{ 'auth.googleLogin' | translate }}
+    </button>
+
+    <button class="apple-btn">
+      <img src="assets/images/apple.svg" width="24" height="auto" alt="Apple">
+      {{ 'auth.appleLogin' | translate }}
+    </button>
+
+    <button class="guest-btn">
+      <img src="assets/images/guest.svg" width="24" height="auto" alt="Guest">
+      {{ 'auth.guestLogin' | translate }}
+    </button>
+  </div>
+
+  <a routerLink="/register">{{ 'auth.registerLink' | translate }}</a>
+</div>
