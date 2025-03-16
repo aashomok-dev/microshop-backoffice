@@ -1,12 +1,19 @@
 <div class="register-container">
   <h2>{{ 'auth.registerTitle' | translate }}</h2>
 
-  <form [formGroup]="registerForm" (ngSubmit)="onRegister()"> <!-- ✅ Исправлено -->
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
 
     <label for="name">{{ 'auth.nameLabel' | translate }}</label>
     <input id="name" formControlName="name" type="text" placeholder="{{ 'auth.namePlaceholder' | translate }}">
     <div class="error" *ngIf="name?.invalid && isTouched('name')">
       <span *ngIf="name?.errors?.['required']">{{ 'auth.nameRequired' | translate }}</span>
+    </div>
+
+    <label for="phone">{{ 'auth.phoneLabel' | translate }}</label>
+    <input id="phone" formControlName="phone" type="tel" placeholder="+380 00 000 00 00">
+    <div class="error" *ngIf="phone?.invalid && isTouched('phone')">
+      <span *ngIf="phone?.errors?.['required']">{{ 'auth.phoneRequired' | translate }}</span>
+      <span *ngIf="phone?.errors?.['pattern']">{{ 'auth.invalidPhone' | translate }}</span>
     </div>
 
     <label for="email">{{ 'auth.emailLabel' | translate }}</label>
@@ -34,6 +41,6 @@
       {{ 'auth.registerBtn' | translate }}
     </button>
 
-    <a routerLink="/login">{{ 'auth.backToLogin' | translate }}</a> <!-- ✅ Исправлено -->
+    <a routerLink="/login">{{ 'auth.backToLogin' | translate }}</a>
   </form>
 </div>

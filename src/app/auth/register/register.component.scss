@@ -15,7 +15,7 @@
   label {
     display: block;
     margin-bottom: 5px;
-    margin-top: 15px;  // ✅ Добавляем отступ сверху
+    margin-top: 15px;
   }
 
   input {
@@ -48,7 +48,7 @@
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 15px;  // ✅ Добавляем отступ сверху
+    margin-top: 15px;
 
     &:hover:not(:disabled) {
       background-color: #4752c4;

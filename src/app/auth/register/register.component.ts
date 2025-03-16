@@ -12,21 +12,32 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  registerForm!: FormGroup; // ✅ Исправлено: добавлено свойство `registerForm`
+  registerForm!: FormGroup;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required]], // ✅ Поле имя
-      email: ['', [Validators.required, Validators.email]], // ✅ Поле email
-      password: ['', [Validators.required, Validators.minLength(6)]], // ✅ Поле password
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]] // ✅ Подтверждение пароля
+      name: ['', [Validators.required]],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^\+380\d{9}$/) // Маска для українських номерів
+        ]
+      ],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   get name() {
     return this.registerForm.get('name');
+  }
+
+  get phone() {
+    return this.registerForm.get('phone');
   }
 
   get email() {
@@ -45,7 +56,7 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.get(field)?.dirty || this.registerForm.get(field)?.touched || false;
   }
 
-  onRegister(): void { // ✅ Исправлено: добавлен метод `onRegister()`
+  onRegister(): void {
     if (this.registerForm.valid) {
       console.log('Дані для реєстрації:', this.registerForm.value);
       alert('Реєстрація успішна! (заглушка)');
