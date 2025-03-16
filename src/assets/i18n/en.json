@@ -32,6 +32,7 @@
     "emailConfirmationDescription": "Please confirm your email by clicking the button below.",
     "backToLogin": "Back to login",
     "confirmEmailBtn": "Confirm email",
-    "confirmPasswordLabel": "Confirm Password"
+    "confirmPasswordLabel": "Confirm Password",
+    "showPassword": "Show password"
   }
 }

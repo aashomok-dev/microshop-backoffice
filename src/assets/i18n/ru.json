@@ -32,6 +32,7 @@
     "emailConfirmationDescription": "Пожалуйста, подтвердите свою электронную почту, нажав на кнопку ниже.",
     "backToLogin": "Назад ко входу",
     "confirmEmailBtn": "Подтвердить почту",
-    "confirmPasswordLabel": "Подтвердите пароль"
+    "confirmPasswordLabel": "Подтвердите пароль",
+    "showPassword": "Показать пароль"
   }
 }

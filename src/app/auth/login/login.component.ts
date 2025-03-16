@@ -7,12 +7,13 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterModule], // ❌ Удален NgOptimizedImage
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterModule], // 🔥 Додано ReactiveFormsModule
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  showPassword: boolean = false;
 
   constructor(private fb: FormBuilder) {}
 
@@ -33,6 +34,10 @@ export class LoginComponent implements OnInit {
 
   isTouched(field: string): boolean {
     return this.loginForm.get(field)?.dirty || this.loginForm.get(field)?.touched || false;
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   onLogin(): void {
