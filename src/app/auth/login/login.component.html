@@ -26,10 +26,10 @@
         autocomplete="current-password"
         placeholder="••••••"
       >
-      <span
-        class="password-toggle glyphicon"
-        [ngClass]="{'glyphicon-eye-open': !showPassword, 'glyphicon-eye-close': showPassword}"
-        (click)="togglePasswordVisibility()">
+      <span class="password-toggle" (click)="togglePasswordVisibility()">
+        <img
+          [src]="showPassword ? 'assets/images/eye-open.png' : 'assets/images/eye-closed.png'"
+          alt="Toggle Password">
       </span>
     </div>
     <div class="error" *ngIf="password?.invalid && isTouched('password')">
@@ -49,17 +49,19 @@
 
   <div class="social-login">
     <p class="social-login-title">{{ 'auth.orContinueWith' | translate }}</p>
-    <button class="google-btn">
-      <img src="assets/images/google.svg" width="24" height="auto" alt="Google">
-      {{ 'auth.googleLogin' | translate }}
-    </button>
-    <button class="apple-btn">
-      <img src="assets/images/apple.svg" width="24" height="auto" alt="Apple">
-      {{ 'auth.appleLogin' | translate }}
-    </button>
-    <button class="guest-btn">
-      <img src="assets/images/guest.svg" width="24" height="auto" alt="Guest">
-      {{ 'auth.guestLogin' | translate }}
-    </button>
+    <div class="social-buttons">
+      <button class="social-btn google">
+        <img src="assets/images/google.svg" width="20" height="auto" alt="Google">
+        {{ 'auth.googleLogin' | translate }}
+      </button>
+      <button class="social-btn apple">
+        <img src="assets/images/apple.svg" width="20" height="auto" alt="Apple">
+        {{ 'auth.appleLogin' | translate }}
+      </button>
+      <button class="social-btn guest">
+        <img src="assets/images/guest.svg" width="20" height="auto" alt="Guest">
+        {{ 'auth.guestLogin' | translate }}
+      </button>
+    </div>
   </div>
 </div>
