@@ -1,40 +1,23 @@
 <div class="login-container">
-  <h2>{{ 'auth.welcome' | translate }}</h2>
+  <h2 class="login-title">{{ 'auth.welcome' | translate }}</h2>
 
   <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
     <label for="email">{{ 'auth.emailLabel' | translate }}</label>
-    <input
-      id="email"
-      name="email"
-      formControlName="email"
-      type="email"
-      autocomplete="email"
-      placeholder="{{ 'auth.emailPlaceholder' | translate }}"
-    >
-    <div class="error" *ngIf="email?.invalid && isTouched('email')">
-      <span *ngIf="email?.errors?.['required']">{{ 'auth.emailRequired' | translate }}</span>
-      <span *ngIf="email?.errors?.['email']">{{ 'auth.invalidEmail' | translate }}</span>
+    <input id="email" formControlName="email" type="email" autocomplete="email" placeholder="{{ 'auth.emailPlaceholder' | translate }}">
+    <div class="error-message" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+      {{ 'auth.emailRequired' | translate }}
     </div>
 
     <label for="password">{{ 'auth.passwordLabel' | translate }}</label>
     <div class="password-container">
-      <input
-        id="password"
-        name="password"
-        formControlName="password"
-        [type]="showPassword ? 'text' : 'password'"
-        autocomplete="current-password"
-        placeholder="••••••"
-      >
+      <input id="password" formControlName="password" [type]="showPassword ? 'text' : 'password'" placeholder="••••••">
       <span class="password-toggle" (click)="togglePasswordVisibility()">
-        <img
-          [src]="showPassword ? 'assets/images/eye-open.png' : 'assets/images/eye-closed.png'"
-          alt="Toggle Password">
+        <img src="assets/images/eye-closed.png" *ngIf="!showPassword" alt="Show Password" width="24" height="24">
+        <img src="assets/images/eye-open.png" *ngIf="showPassword" alt="Hide Password" width="24" height="24">
       </span>
     </div>
-    <div class="error" *ngIf="password?.invalid && isTouched('password')">
-      <span *ngIf="password?.errors?.['required']">{{ 'auth.passwordRequired' | translate }}</span>
-      <span *ngIf="password?.errors?.['minlength']">{{ 'auth.passwordMinLength' | translate }}</span>
+    <div class="error-message" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+      {{ 'auth.passwordMinLength' | translate }}
     </div>
 
     <button type="submit" [disabled]="loginForm.invalid">
@@ -51,15 +34,15 @@
     <p class="social-login-title">{{ 'auth.orContinueWith' | translate }}</p>
     <div class="social-buttons">
       <button class="social-btn google">
-        <img src="assets/images/google.svg" width="20" height="auto" alt="Google">
+        <img src="assets/images/google.svg" width="20" alt="Google">
         {{ 'auth.googleLogin' | translate }}
       </button>
       <button class="social-btn apple">
-        <img src="assets/images/apple.svg" width="20" height="auto" alt="Apple">
+        <img src="assets/images/apple.svg" width="20" alt="Apple">
         {{ 'auth.appleLogin' | translate }}
       </button>
       <button class="social-btn guest">
-        <img src="assets/images/guest.svg" width="20" height="auto" alt="Guest">
+        <img src="assets/images/guest.svg" width="20" alt="Guest">
         {{ 'auth.guestLogin' | translate }}
       </button>
     </div>

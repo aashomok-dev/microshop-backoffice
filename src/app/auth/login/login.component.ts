@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,13 +11,17 @@ import { RouterModule } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
-  showPassword: boolean = false;
+export class LoginComponent implements OnInit, OnDestroy {
+  public loginForm!: FormGroup;
+  public showPassword: boolean = false;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  private initializeForm(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -32,18 +36,29 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
 
-  isTouched(field: string): boolean {
+  public isTouched(field: string): boolean {
     return this.loginForm.get(field)?.dirty || this.loginForm.get(field)?.touched || false;
   }
 
-  togglePasswordVisibility(): void {
+  public togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
-  onLogin(): void {
-    if (this.loginForm.valid) {
-      console.log('Дані для входу:', this.loginForm.value);
-      alert('Авторизація успішна! (заглушка)');
+  @HostListener('document:click', ['$event'])
+  public onClickOutside(event: Event): void {
+    const targetElement = event.target as HTMLElement;
+    if (!targetElement.closest('.password-container')) {
+      this.showPassword = false;
     }
+  }
+
+  public onLogin(): void {
+    if (this.loginForm.valid) {
+      console.log('Авторизація успішна:', this.loginForm.value);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.loginForm.reset();
   }
 }

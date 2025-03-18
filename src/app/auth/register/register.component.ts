@@ -13,6 +13,8 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
 
   constructor(private fb: FormBuilder) {}
 
@@ -54,6 +56,14 @@ export class RegisterComponent implements OnInit {
 
   isTouched(field: string): boolean {
     return this.registerForm.get(field)?.dirty || this.registerForm.get(field)?.touched || false;
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   onRegister(): void {
