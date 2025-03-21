@@ -1,20 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule, NgOptimizedImage } from '@angular/common'; // Додано NgOptimizedImage
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterModule, NgOptimizedImage], // Додано NgOptimizedImage
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterModule, NgOptimizedImage],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
   public loginForm!: FormGroup;
   public showPassword = false;
-  public showErrors = false; // Флаг для показу помилок
+  public showErrors = false;
+  private errorTimeout: any; // Таймер для приховування помилок
 
   constructor(private fb: FormBuilder) {}
 
@@ -50,7 +51,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public onLogin(): void {
-    this.showErrors = true; // Включаємо показ помилок після натискання кнопки
+    this.showErrors = true; // Включаємо показ помилок
+
+    // Видаляємо попередній таймер (щоб не було багів при багаторазовому натисканні)
+    clearTimeout(this.errorTimeout);
+
+    // Запускаємо таймер на 5 секунд, після якого ховаємо помилки
+    this.errorTimeout = setTimeout(() => {
+      this.showErrors = false;
+    }, 5000);
 
     if (this.loginForm.valid) {
       console.log('Авторизація успішна:', this.loginForm.value);
@@ -59,5 +68,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.loginForm.reset();
+    clearTimeout(this.errorTimeout); // Очищуємо таймер при знищенні компонента
   }
 }
