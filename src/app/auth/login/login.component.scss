@@ -1,5 +1,6 @@
 body {
   background: linear-gradient(135deg, #16191e, #23272f);
+  font-family: 'Arial', sans-serif;
 }
 
 .login-container {
@@ -31,16 +32,18 @@ label {
 input {
   width: 100%;
   padding: 12px;
-  margin-bottom: 15px;
+  margin-bottom: 5px; // Зменшено відстань перед помилкою
   border-radius: 8px;
   background: rgba(64, 68, 75, 0.8);
   color: white;
+  border: 1px solid transparent;
   transition: all 0.3s ease-in-out;
 
   &:focus {
     background: rgba(53, 56, 63, 0.95);
     box-shadow: 0 0 10px rgba(88, 101, 242, 0.8);
     transform: scale(1.02);
+    border-color: rgba(88, 101, 242, 0.8);
   }
 }
 
@@ -48,7 +51,7 @@ input {
   position: relative;
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 
   input {
     width: 100%;
@@ -63,14 +66,32 @@ input {
     cursor: pointer;
     width: 38px;
     height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     img {
-      width: 28px;
+      width: 24px;
       filter: brightness(1.2);
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    &:hover img {
+      opacity: 0.8;
     }
   }
 }
 
+// Стилізація повідомлень про помилки
+.error-message {
+  color: #ff4d4d;
+  font-size: 12px;
+  margin-top: -3px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+// Кнопка входу
 button {
   width: 100%;
   padding: 14px;
@@ -79,13 +100,22 @@ button {
   color: white;
   font-size: 16px;
   font-weight: bold;
+  cursor: pointer;
   transition: all 0.3s ease-in-out;
+  border: none;
+  outline: none;
 
   &:hover:not(:disabled) {
     transform: scale(1.05);
   }
+
+  &:disabled {
+    background: rgba(88, 101, 242, 0.6);
+    cursor: not-allowed;
+  }
 }
 
+// Посилання для відновлення пароля та реєстрації
 .login-links {
   display: flex;
   justify-content: space-between;
@@ -99,6 +129,49 @@ button {
 
     &:hover {
       color: #99aab5;
+    }
+  }
+}
+
+// Блок соціальних входів
+.social-login {
+  margin-top: 20px;
+  text-align: center;
+
+  .social-login-title {
+    font-size: 14px;
+    color: #b9bbbe;
+    margin-bottom: 10px;
+  }
+
+  .social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #5865f2, #4752c4);
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border: none;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      transform: scale(1.05);
     }
   }
 }
