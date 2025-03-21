@@ -2,43 +2,48 @@
   <h2 class="register-title">{{ 'auth.registerTitle' | translate }}</h2>
 
   <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-
     <div class="form-group">
       <label for="name">{{ 'auth.nameLabel' | translate }}</label>
       <input id="name" formControlName="name" type="text" placeholder="{{ 'auth.namePlaceholder' | translate }}">
+      <div class="error-message" *ngIf="shouldShowError('name')">Введіть ім'я</div>
     </div>
 
     <div class="form-group">
       <label for="phone">{{ 'auth.phoneLabel' | translate }}</label>
       <input id="phone" formControlName="phone" type="tel" placeholder="+380 00 000 00 00">
+      <div class="error-message" *ngIf="shouldShowError('phone')">Введіть коректний номер телефону</div>
     </div>
 
     <div class="form-group">
       <label for="email">{{ 'auth.emailLabel' | translate }}</label>
       <input id="email" formControlName="email" type="email" placeholder="{{ 'auth.emailPlaceholder' | translate }}">
+      <div class="error-message" *ngIf="shouldShowError('email')">Введіть коректний email</div>
     </div>
 
-    <div class="form-group password-container">
+    <div class="form-group">
       <label for="password">{{ 'auth.passwordLabel' | translate }}</label>
       <div class="password-wrapper">
         <input id="password" formControlName="password" [type]="showPassword ? 'text' : 'password'" placeholder="••••••">
         <span class="password-toggle" (click)="togglePasswordVisibility()">
-          <img [src]="showPassword ? 'assets/images/eye-open.png' : 'assets/images/eye-closed.png'" alt="Toggle Password">
+          <img ngSrc="{{ showPassword ? 'assets/images/eye-open.png' : 'assets/images/eye-closed.png' }}" alt="Toggle Password" width="24" height="24">
         </span>
       </div>
+      <div class="error-message" *ngIf="shouldShowError('password')">Пароль має містити не менше 6 символів</div>
     </div>
 
-    <div class="form-group password-container">
+    <div class="form-group">
       <label for="confirmPassword">{{ 'auth.confirmPasswordLabel' | translate }}</label>
       <div class="password-wrapper">
         <input id="confirmPassword" formControlName="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'" placeholder="{{ 'auth.confirmPasswordPlaceholder' | translate }}">
         <span class="password-toggle" (click)="toggleConfirmPasswordVisibility()">
-          <img [src]="showConfirmPassword ? 'assets/images/eye-open.png' : 'assets/images/eye-closed.png'" alt="Toggle Confirm Password">
+          <img ngSrc="{{ showConfirmPassword ? 'assets/images/eye-open.png' : 'assets/images/eye-closed.png' }}" alt="Toggle Confirm Password" width="24" height="24">
         </span>
       </div>
+      <div class="error-message" *ngIf="shouldShowError('confirmPassword')">Підтвердіть пароль</div>
+      <div class="error-message" *ngIf="shouldShowPasswordMismatchError()">Паролі не співпадають</div>
     </div>
 
-    <button type="submit" [disabled]="registerForm.invalid">
+    <button type="submit">
       {{ 'auth.registerBtn' | translate }}
     </button>
 

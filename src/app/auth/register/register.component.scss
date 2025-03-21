@@ -1,54 +1,39 @@
+@import '../login/login.component.scss'; // ✅ Підключаємо стилі login.scss
+
 .register-container {
-  background: rgba(35, 39, 47, 0.98);
-  color: #ffffff;
-  padding: 30px;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 500px;
-  margin: 60px auto;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
+  @extend .login-container; // ✅ Використовуємо ті ж стилі, що і в login
 }
 
 .register-title {
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-transform: uppercase;
+  @extend .login-title; // ✅ Наслідуємо стиль заголовка
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
+  position: relative; // ✅ Для правильного розміщення іконок
 }
 
 label {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 5px;
+  @extend label;
 }
 
 input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  background-color: #40444b;
-  color: white;
-  transition: background-color 0.3s, box-shadow 0.3s;
-
-  &:focus {
-    outline: none;
-    background-color: #35383f;
-    box-shadow: 0 0 8px rgba(88, 101, 242, 0.9);
-  }
+  @extend input;
+  padding-right: 40px; // ✅ Додаємо місце для іконки ока (пароль)
 }
 
 .password-container {
   display: flex;
   flex-direction: column;
+  position: relative;
+  margin-bottom: 15px; // ✅ Виправлений відступ, щоб збалансувати розташування
+}
+
+// ✅ Виправлено відступ між "Пароль" і "Підтвердити пароль"
+.password-container {
+  margin-bottom: 10px; // ❗️ Зменшено відступ
 }
 
 .password-wrapper {
@@ -58,7 +43,7 @@ input {
 
   input {
     width: 100%;
-    padding-right: 50px;
+    padding-right: 45px; // ✅ Місце для іконки ока
   }
 
   .password-toggle {
@@ -67,54 +52,26 @@ input {
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    width: 36px;
-    height: 36px;
+    width: 24px;
+    height: 24px;
 
     img {
-      width: 24px;
-      opacity: 1;
+      width: 20px;
+      opacity: 0.8;
       filter: brightness(1.2);
+      transition: opacity 0.2s ease-in-out;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 }
 
 button {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #5865f2, #4752c4);
-  border: none;
-  border-radius: 10px;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-
-  &:hover:not(:disabled) {
-    background: linear-gradient(135deg, #4752c4, #3c46b1);
-    transform: scale(1.03);
-  }
-
-  &:disabled {
-    background-color: #99aab5;
-    cursor: not-allowed;
-  }
+  @extend button;
 }
 
 .auth-links {
-  text-align: center;
-  margin-top: 15px;
-
-  a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-
-    &:hover {
-      color: #99aab5;
-    }
-  }
+  @extend .login-links;
 }
