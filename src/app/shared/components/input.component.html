@@ -1,0 +1,25 @@
+<div class="input-wrapper" [ngClass]="{ 'invalid': isInvalid }">
+  <label *ngIf="label">{{ label }}</label>
+
+  <div class="input-container">
+    <input
+      [type]="inputType"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [value]="value"
+      (input)="onInputChange($event)"
+      (blur)="onTouched()"
+      class="app-input"
+    />
+
+    <img
+      *ngIf="type === 'password'"
+      (click)="toggleVisibility()"
+      [src]="hide ? 'assets/images/eye-closed.svg' : 'assets/images/eye-open.svg'"
+      width="24"
+      height="24"
+      class="eye-icon"
+      alt="Toggle password visibility"
+    />
+  </div>
+</div>

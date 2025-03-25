@@ -1,73 +1,96 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import {
+  NonNullableFormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { catchError, of } from 'rxjs';
+import { InputComponent } from 'src/app/shared/components/input.component';
+import { ButtonComponent } from 'src/app/shared/components/button.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterModule, NgOptimizedImage],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    RouterModule,
+    NgOptimizedImage,
+    InputComponent,
+    ButtonComponent
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  public loginForm!: FormGroup;
-  public showPassword = false;
-  public showErrors = false;
-  private errorTimeout: any; // Таймер для приховування помилок
+  private fb = inject(NonNullableFormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  constructor(private fb: FormBuilder) {}
+  public loginForm!: FormGroup<{
+    email: FormControl<string>;
+    password: FormControl<string>;
+  }>;
+
+  public submitted = false;
+  public showPassword = false;
+  public errorMessage = '';
+  private errorTimeout: any;
 
   ngOnInit(): void {
-    this.initializeForm();
-  }
-
-  private initializeForm(): void {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      email: this.fb.control('', [Validators.required, Validators.email]),
+      password: this.fb.control('', Validators.required)
     });
   }
 
-  get email() {
-    return this.loginForm.get('email');
+  get f() {
+    return this.loginForm.controls;
   }
 
-  get password() {
-    return this.loginForm.get('password');
-  }
-
-  public togglePasswordVisibility(): void {
+  togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
-  public shouldShowEmailError(): boolean {
-    return this.showErrors && this.email?.invalid;
-  }
-
-  public shouldShowPasswordError(): boolean {
-    return this.showErrors && this.email?.valid && this.password?.invalid;
-  }
-
-  public onLogin(): void {
-    this.showErrors = true; // Включаємо показ помилок
-
-    // Видаляємо попередній таймер (щоб не було багів при багаторазовому натисканні)
+  onLogin(): void {
+    this.submitted = true;
     clearTimeout(this.errorTimeout);
+    this.errorMessage = '';
 
-    // Запускаємо таймер на 5 секунд, після якого ховаємо помилки
+    if (this.loginForm.invalid) return;
+
+    const { email, password } = this.loginForm.getRawValue();
+
+    this.authService
+      .login({ email, password })
+      .pipe(
+        catchError(err => {
+          console.error('❌ Login error:', err);
+          this.errorMessage =
+            err?.message === 'EMAIL_NOT_CONFIRMED'
+              ? 'auth.emailNotConfirmed'
+              : 'auth.loginFailed';
+          return of(null);
+        })
+      )
+      .subscribe(res => {
+        if (res) void this.router.navigate(['/dashboard']);
+      });
+
     this.errorTimeout = setTimeout(() => {
-      this.showErrors = false;
+      this.errorMessage = '';
     }, 5000);
-
-    if (this.loginForm.valid) {
-      console.log('Авторизація успішна:', this.loginForm.value);
-    }
   }
 
   ngOnDestroy(): void {
     this.loginForm.reset();
-    clearTimeout(this.errorTimeout); // Очищуємо таймер при знищенні компонента
+    clearTimeout(this.errorTimeout);
   }
 }

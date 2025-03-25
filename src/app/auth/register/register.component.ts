@@ -1,111 +1,98 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NonNullableFormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import {
+  NonNullableFormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+  ReactiveFormsModule
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { AuthService } from 'src/app/core/services/auth.service';
+import { InputComponent } from 'src/app/shared/components/input.component';
+import { ButtonComponent } from 'src/app/shared/components/button.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterModule, NgOptimizedImage],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    RouterModule,
+    InputComponent,
+    ButtonComponent
+  ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  public registerForm!: FormGroup;
-  public showPassword = false;
-  public showConfirmPassword = false;
-  public showErrors = false;
-  public firstErrorField: string | null = null; // Відображаємо лише одну помилку
-  private errorTimeout: any;
+  private fb = inject(NonNullableFormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  constructor(private fb: NonNullableFormBuilder) {}
+  public registerForm!: FormGroup<{
+    name: FormControl<string>;
+    phone: FormControl<string>;
+    email: FormControl<string>;
+    password: FormControl<string>;
+    confirmPassword: FormControl<string>;
+  }>;
 
-  ngOnInit(): void {
-    this.initializeForm();
+  public submitted = false;
+  public errorMessage = '';
+  public successMessage = '';
+
+  get f() {
+    return this.registerForm.controls;
   }
 
-  private initializeForm(): void {
+  ngOnInit(): void {
     this.registerForm = this.fb.group(
       {
-        name: ['', Validators.required],
-        phone: ['', [Validators.required, Validators.pattern(/^\+380\d{9}$/)]],
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
+        name: this.fb.control('', Validators.required),
+        phone: this.fb.control('', [Validators.required, Validators.pattern(/^\+380\d{9}$/)]),
+        email: this.fb.control('', [Validators.required, Validators.email]),
+        password: this.fb.control('', [Validators.required, Validators.minLength(6)]),
+        confirmPassword: this.fb.control('', Validators.required)
       },
       { validators: this.passwordMatchValidator }
     );
   }
 
-  get name() {
-    return this.registerForm.get('name');
-  }
-
-  get phone() {
-    return this.registerForm.get('phone');
-  }
-
-  get email() {
-    return this.registerForm.get('email');
-  }
-
-  get password() {
-    return this.registerForm.get('password');
-  }
-
-  get confirmPassword() {
-    return this.registerForm.get('confirmPassword');
-  }
-
-  public shouldShowError(field: string): boolean {
-    return this.showErrors && this.firstErrorField === field;
-  }
-
-  public shouldShowPasswordMismatchError(): boolean {
-    return this.showErrors && this.firstErrorField === 'passwordMismatch';
-  }
-
-  private passwordMatchValidator(group: FormGroup) {
+  private passwordMatchValidator(group: FormGroup): null | object {
     const password = group.get('password')?.value;
     const confirmPassword = group.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
-  private findFirstInvalidField(): string | null {
-    for (const field of ['name', 'phone', 'email', 'password', 'confirmPassword']) {
-      if (this.registerForm.get(field)?.invalid) return field;
-    }
-    if (this.registerForm.hasError('passwordMismatch')) return 'passwordMismatch';
-    return null;
-  }
+  onRegister(): void {
+    this.submitted = true;
+    this.errorMessage = '';
+    this.successMessage = '';
 
-  public togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
-  }
+    if (this.registerForm.invalid) return;
 
-  public toggleConfirmPasswordVisibility(): void {
-    this.showConfirmPassword = !this.showConfirmPassword;
-  }
+    const { email, password, name } = this.registerForm.getRawValue();
 
-  public onRegister(): void {
-    this.showErrors = true;
-    this.firstErrorField = this.findFirstInvalidField(); // Визначаємо перше поле з помилкою
-
-    clearTimeout(this.errorTimeout);
-    this.errorTimeout = setTimeout(() => {
-      this.showErrors = false;
-      this.firstErrorField = null;
-    }, 5000);
-
-    if (this.registerForm.valid) {
-      console.log('Дані для реєстрації:', this.registerForm.value);
-      alert('Реєстрація успішна! (заглушка)');
-    }
+    this.authService.register({ email, password, name }).subscribe({
+      next: () => {
+        this.successMessage = 'auth.registerSuccess';
+        setTimeout(() => this.router.navigate(['/auth/login']), 3000);
+      },
+      error: (err) => {
+        console.error('❌ Register error:', err);
+        this.errorMessage =
+          err?.error?.message === 'USER_ALREADY_EXISTS'
+            ? 'auth.userAlreadyExists'
+            : 'auth.registerFailed';
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.registerForm.reset();
-    clearTimeout(this.errorTimeout);
   }
 }

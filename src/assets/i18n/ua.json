@@ -33,6 +33,25 @@
     "backToLogin": "Назад до входу",
     "confirmEmailBtn": "Підтвердити пошту",
     "confirmPasswordLabel": "Підтвердьте пароль",
-    "showPassword": "Показати пароль"
+    "showPassword": "Показати пароль",
+    "emailConfirmationSuccess": "Ваш email підтверджено! Вас буде перенаправлено на сторінку входу.",
+    "emailConfirmationError": "Посилання недійсне або протерміноване.",
+    "emailNotConfirmed": "Ваш email ще не підтверджено. Перевірте пошту.",
+    "loginFailed": "Невірний email або пароль.",
+    "resetLinkSent": "Інструкції надіслано! Перевірте пошту.",
+    "resetPasswordTitle": "Скидання пароля",
+    "newPassword": "Новий пароль",
+    "confirmPassword": "Підтвердіть пароль",
+    "passwordTooShort": "Пароль має містити щонайменше 6 символів",
+    "confirmPasswordRequired": "Підтвердження пароля обов'язкове",
+    "passwordsDoNotMatch": "Паролі не співпадають",
+    "resetPasswordBtn": "Скинути пароль",
+    "resetSuccess": "Пароль успішно змінено! Перенаправляємо...",
+    "resetFailed": "Помилка скидання пароля",
+    "invalidResetToken": "Недійсний або прострочений токен",
+    "userNotFoundOrBlocked": "Користувача не знайдено або обліковий запис заблокований",
+    "resetRequestFailed": "Не вдалося надіслати запит на відновлення пароля. Спробуйте пізніше",
+    "emailInvalid": "Введіть коректний email",
+    "passwordPlaceholder": "••••••"
   }
 }

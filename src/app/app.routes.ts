@@ -1,14 +1,23 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
-import { EmailConfirmationComponent } from './auth/email-confirmation/email-confirmation.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { AuthGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'register', component: RegisterComponent }, // ✅ Убедись, что путь правильный
-  { path: 'login', component: LoginComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'email-confirmation', component: EmailConfirmationComponent },
-  { path: '**', redirectTo: 'login', pathMatch: 'full' }
+  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+
+  // 🔐 Lazy loading модуля авторизації
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+  },
+
+  // 🔐 Захищена сторінка
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
+  },
+
+  // 🔁 Інше — перенаправлення на login
+  { path: '**', redirectTo: 'auth/login', pathMatch: 'full' }
 ];

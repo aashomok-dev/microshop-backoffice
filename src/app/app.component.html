@@ -1,4 +1,10 @@
+<div *ngIf="isLoggedIn" class="header">
+  <span>👋 Привіт, {{ userEmail }}</span>
+  <button (click)="logout()">Вийти</button>
+</div>
+
 <app-language-selector></app-language-selector>
+
 <div class="app-root">
   <router-outlet></router-outlet>
 </div>

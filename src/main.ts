@@ -2,6 +2,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient, HttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
+
 import {
   TranslateLoader,
   TranslateService,
@@ -14,30 +15,38 @@ import {
   USE_DEFAULT_LANG,
   ISOLATE_TRANSLATE_SERVICE,
   USE_EXTEND,
-  DEFAULT_LANGUAGE // ✅ Добавлен недостающий импорт
+  DEFAULT_LANGUAGE
 } from '@ngx-translate/core';
+
 import { HttpLoaderFactory } from './providers/translate-loader';
-import { CustomMissingTranslationHandler } from './providers/custom-missing-translation-handler'; // ✅ Кастомный обработчик
+import { CustomMissingTranslationHandler } from './providers/custom-missing-translation-handler';
 import { routes } from './app/app.routes';
 
-// ✅ Добавляем TranslateLoader через factory
+import { importProvidersFrom } from '@angular/core';
+import { CoreModule } from './app/core/core.module'; // ✅ Підключаємо CoreModule
+
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
     provideRouter(routes),
+
+    // 🌍 i18n Translate
     {
       provide: TranslateLoader,
       useFactory: HttpLoaderFactory,
-      deps: [HttpClient], // ✅ Исправлено: теперь зависит от HttpClient
+      deps: [HttpClient],
     },
     TranslateService,
     TranslateStore,
-    { provide: TranslateCompiler, useClass: TranslateFakeCompiler }, // ✅ Используем TranslateFakeCompiler
-    { provide: TranslateParser, useClass: TranslateDefaultParser }, // ✅ Используем TranslateDefaultParser
-    { provide: MissingTranslationHandler, useClass: CustomMissingTranslationHandler }, // ✅ Используем кастомный обработчик
-    { provide: USE_DEFAULT_LANG, useValue: 'ua' }, // ✅ Устанавливаем язык по умолчанию
-    { provide: DEFAULT_LANGUAGE, useExisting: USE_DEFAULT_LANG }, // ✅ Исправлено: добавлен DEFAULT_LANGUAGE
-    { provide: ISOLATE_TRANSLATE_SERVICE, useValue: false }, // ✅ Отключаем изолированные переводы
-    { provide: USE_EXTEND, useValue: true } // ✅ Добавлен недостающий провайдер
+    { provide: TranslateCompiler, useClass: TranslateFakeCompiler },
+    { provide: TranslateParser, useClass: TranslateDefaultParser },
+    { provide: MissingTranslationHandler, useClass: CustomMissingTranslationHandler },
+    { provide: USE_DEFAULT_LANG, useValue: 'ua' },
+    { provide: DEFAULT_LANGUAGE, useExisting: USE_DEFAULT_LANG },
+    { provide: ISOLATE_TRANSLATE_SERVICE, useValue: false },
+    { provide: USE_EXTEND, useValue: true },
+
+    // 🧩 CoreModule: interceptors, guards, services
+    importProvidersFrom(CoreModule)
   ]
 }).catch(err => console.error(err));

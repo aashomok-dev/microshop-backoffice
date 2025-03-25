@@ -1,7 +1,18 @@
 <div class="email-confirmation-container">
-  <h2>{{ 'auth.emailConfirmation' | translate }}</h2>
-  <p>{{ 'auth.emailConfirmationDescription' | translate }}</p>
-  <button class="confirm-button" (click)="confirmEmail()">
-    {{ 'auth.confirmEmailBtn' | translate }}
-  </button>
+  <!-- ⏳ Очікування -->
+  <ng-container *ngIf="status === 'loading'">
+    <app-loader></app-loader>
+    <h2>{{ 'auth.emailConfirmation' | translate }}</h2>
+    <p>{{ 'auth.emailConfirmationDescription' | translate }}</p>
+  </ng-container>
+
+  <!-- ✅ Успішно -->
+  <p *ngIf="status === 'success'" class="status-text success">
+    ✅ {{ 'auth.emailConfirmationSuccess' | translate }}
+  </p>
+
+  <!-- ⛔️ Помилка -->
+  <p *ngIf="status === 'error'" class="status-text error">
+    ⛔ {{ 'auth.emailConfirmationError' | translate }}
+  </p>
 </div>

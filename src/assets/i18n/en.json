@@ -33,6 +33,25 @@
     "backToLogin": "Back to login",
     "confirmEmailBtn": "Confirm email",
     "confirmPasswordLabel": "Confirm Password",
-    "showPassword": "Show password"
+    "showPassword": "Show password",
+    "emailConfirmationSuccess": "Your email has been confirmed! You will be redirected to the login page.",
+    "emailConfirmationError": "The confirmation link is invalid or has expired.",
+    "emailNotConfirmed": "Your email is not confirmed yet. Please check your inbox.",
+    "loginFailed": "Invalid email or password.",
+    "resetLinkSent": "Instructions sent! Please check your email.",
+    "resetPasswordTitle": "Reset Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "passwordTooShort": "Password must be at least 6 characters long",
+    "confirmPasswordRequired": "Confirming your password is required",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "resetPasswordBtn": "Reset Password",
+    "resetSuccess": "Password successfully changed! Redirecting...",
+    "resetFailed": "Failed to reset password",
+    "invalidResetToken": "Invalid or expired token",
+    "userNotFoundOrBlocked": "User not found or account is blocked",
+    "resetRequestFailed": "Failed to send password reset request. Please try again later",
+    "emailInvalid": "Enter a valid email address",
+    "passwordPlaceholder": "••••••"
   }
 }

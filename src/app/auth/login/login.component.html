@@ -2,49 +2,75 @@
   <h2 class="login-title">{{ 'auth.welcome' | translate }}</h2>
 
   <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-    <label for="email">{{ 'auth.emailLabel' | translate }}</label>
-    <input id="email" formControlName="email" type="email" autocomplete="email" placeholder="{{ 'auth.emailPlaceholder' | translate }}">
-    <div class="error-message" *ngIf="shouldShowEmailError()">
-      Введіть email
-    </div>
 
-    <label for="password">{{ 'auth.passwordLabel' | translate }}</label>
-    <div class="password-container">
-      <input id="password" formControlName="password" [type]="showPassword ? 'text' : 'password'" placeholder="••••••">
-      <span class="password-toggle" (click)="togglePasswordVisibility()">
-        <img ngSrc="assets/images/eye-closed.png" *ngIf="!showPassword" alt="Show Password" width="20" height="14">
-        <img ngSrc="assets/images/eye-open.png" *ngIf="showPassword" alt="Hide Password" width="20" height="14">
+    <!-- 📧 Email -->
+    <app-input
+      formControlName="email"
+      [label]="'auth.emailLabel' | translate"
+      [placeholder]="'auth.emailPlaceholder' | translate"
+      type="email"
+      [isInvalid]="submitted && f.email.invalid"
+    ></app-input>
+    <div class="error-message" *ngIf="submitted && f.email.invalid">
+      <span *ngIf="f.email.errors?.['required']">
+        {{ 'auth.emailRequired' | translate }}
+      </span>
+      <span *ngIf="f.email.errors?.['email']">
+        {{ 'auth.emailInvalid' | translate }}
       </span>
     </div>
-    <div class="error-message" *ngIf="shouldShowPasswordError()">
-      Введіть пароль
+
+    <!-- 🔒 Пароль -->
+    <app-input
+      formControlName="password"
+      [label]="'auth.passwordLabel' | translate"
+      [placeholder]="'auth.passwordPlaceholder' | translate"
+      type="password"
+      [isInvalid]="submitted && f.password.invalid"
+    ></app-input>
+    <div class="error-message" *ngIf="submitted && f.password.invalid">
+      {{ 'auth.passwordRequired' | translate }}
     </div>
 
-    <button type="submit">
-      {{ 'auth.loginBtn' | translate }}
-    </button>
+    <!-- ⚠️ Помилка -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage | translate }}
+    </div>
 
+    <!-- 🔘 Кнопка входу -->
+    <app-button type="submit" [disabled]="loginForm.invalid">
+      {{ 'auth.loginBtn' | translate }}
+    </app-button>
+
+    <!-- 🔗 Посилання -->
     <div class="login-links">
-      <a routerLink="/forgot-password" class="forgot-password">{{ 'auth.forgotPasswordLink' | translate }}</a>
-      <a routerLink="/register" class="register-link">{{ 'auth.registerLink' | translate }}</a>
+      <a routerLink="/auth/forgot-password">
+        {{ 'auth.forgotPasswordLink' | translate }}
+      </a>
+      <a routerLink="/auth/register">
+        {{ 'auth.registerLink' | translate }}
+      </a>
     </div>
   </form>
 
+  <!-- 🌐 Соціальний логін -->
   <div class="social-login">
     <p class="social-login-title">{{ 'auth.orContinueWith' | translate }}</p>
     <div class="social-buttons">
-      <button class="social-btn google">
-        <img ngSrc="assets/images/google.svg" width="20" height="20" alt="Google">
+      <app-button class="social-btn google">
+        <img ngSrc="assets/images/google.svg" width="20" height="20" alt="Google" />
         {{ 'auth.googleLogin' | translate }}
-      </button>
-      <button class="social-btn apple">
-        <img ngSrc="assets/images/apple.svg" width="20" height="20" alt="Apple">
+      </app-button>
+
+      <app-button class="social-btn apple">
+        <img ngSrc="assets/images/apple.svg" width="20" height="20" alt="Apple" />
         {{ 'auth.appleLogin' | translate }}
-      </button>
-      <button class="social-btn guest">
-        <img ngSrc="assets/images/guest.svg" width="20" height="20" alt="Guest">
+      </app-button>
+
+      <app-button class="social-btn guest">
+        <img ngSrc="assets/images/guest.svg" width="20" height="20" alt="Guest" />
         {{ 'auth.guestLogin' | translate }}
-      </button>
+      </app-button>
     </div>
   </div>
 </div>
