@@ -75,9 +75,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     if (this.registerForm.invalid) return;
 
-    const { email, password, name } = this.registerForm.getRawValue();
+    const { email, password, name, phone } = this.registerForm.getRawValue();
 
-    this.authService.register({ email, password, name }).subscribe({
+    this.authService.register({ email, password, name, phone }).subscribe({
       next: () => {
         this.successMessage = 'auth.registerSuccess';
         setTimeout(() => this.router.navigate(['/auth/login']), 3000);

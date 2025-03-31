@@ -1,10 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = '/api/auth'; // без localhost:8082
+  private apiUrl = 'http://localhost:8080/api/auth'; // Вказано повний URL з портом
 
   constructor(private http: HttpClient) {}
 
@@ -25,36 +25,50 @@ export class AuthService {
   }
 
   // 📝 Реєстрація нового користувача
-  register(data: { email: string; password: string; name?: string }): Observable<any> {
+  register(data: {
+    email: string;
+    password: string;
+    name: string;
+    phone: string;
+  }): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, {
       userEmail: data.email,
       password: data.password,
-      name: data.name
+      firstName: data.name,
+      phoneNumber: data.phone,
     }, this.getJsonHeaders());
   }
+
 
   // 📩 Підтвердження email
   confirmEmail(token: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/confirm-email?token=${token}`, {}, this.getJsonHeaders());
   }
 
-  // 🔁 Відновлення пароля (етап 1) — запит на reset-password-token
-// 🔁 Відновлення пароля (етап 1)
+  // 🔁 Відновлення пароля (етап 1) - Генерація токена
   forgotPassword(email: string): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/reset-password-token?email=${encodeURIComponent(email)}`,
-      {},
-      this.getJsonHeaders()
-    );
+    const params = new HttpParams().set('email', email);
+    return this.http.post(`${this.apiUrl}/reset-password-token`, null, { // POST запит без тіла
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      params,
+      responseType: 'text' as 'json' // Очікуємо простий текстовий токен від бекенду
+    });
   }
-
-
 
   // ✅ Скидання пароля (етап 2)
   resetPassword(token: string, newPassword: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/reset-password?token=${token}`, {
-      newPassword
-    }, this.getJsonHeaders());
+    const params = new HttpParams()
+      .set('token', token)
+      .set('password', newPassword);
+
+    return this.http.put(`${this.apiUrl}/update-password`, null, { // Виправлено запит на `PUT`
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      params
+    });
   }
 
   // 📥 Отримати токен з localStorage
