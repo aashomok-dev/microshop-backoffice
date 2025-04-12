@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { catchError, of } from 'rxjs';
 import { InputComponent } from 'src/app/shared/components/input.component';
 import { ButtonComponent } from 'src/app/shared/components/button.component';
+import { LanguageSelectorComponent } from 'src/app/components/language-selector/language-selector.component'; // 🆕
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,8 @@ import { ButtonComponent } from 'src/app/shared/components/button.component';
     RouterModule,
     NgOptimizedImage,
     InputComponent,
-    ButtonComponent
+    ButtonComponent,
+    LanguageSelectorComponent // 🆕 додано сюди
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']

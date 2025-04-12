@@ -1,7 +1,17 @@
-<button
-  [type]="type"
-  [disabled]="disabled"
-  [ngClass]="['app-button', className]"
->
-  <ng-content></ng-content>
-</button>
+<div [ngClass]="centered ? 'button-wrapper centered' : 'button-wrapper'">
+  <button
+    [attr.type]="type"
+    [disabled]="disabled || loading"
+    [ngClass]="['app-button', className]"
+  >
+    <!-- 🔄 Показуємо лоадер, якщо активовано loading -->
+    <ng-container *ngIf="loading; else buttonContent">
+      <div class="spinner"></div>
+    </ng-container>
+
+    <!-- 📄 Основний вміст кнопки -->
+    <ng-template #buttonContent>
+      <ng-content></ng-content>
+    </ng-template>
+  </button>
+</div>

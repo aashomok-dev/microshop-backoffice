@@ -1,16 +1,33 @@
-import { Injectable } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { CanActivateFn, Router, UrlTree, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-export const AuthGuard: CanActivateFn = () => {
+export const AuthGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+): boolean | UrlTree => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isLoggedIn()) {
+  const isLoggedIn = authService.isLoggedIn();
+  const publicRoutes = [
+    '/auth/login',
+    '/auth/register',
+    '/auth/forgot-password',
+    '/auth/reset-password',
+    '/auth/email-confirmation'
+  ];
+
+  // ✅ Якщо маршрут публічний — пускаємо навіть неавторизованих
+  if (publicRoutes.includes(state.url)) {
     return true;
   }
 
-  router.navigate(['/login']);
-  return false;
+  // 🔐 Якщо залогінений — пускаємо
+  if (isLoggedIn) {
+    return true;
+  }
+
+  // ❌ Інакше — редірект на логін
+  return router.createUrlTree(['/auth/login']);
 };

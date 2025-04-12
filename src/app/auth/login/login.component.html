@@ -1,4 +1,9 @@
 <div class="login-container">
+  <!-- 🌐 Перемикач мови у правому верхньому куті -->
+  <div class="language-switch">
+    <app-language-selector></app-language-selector>
+  </div>
+
   <h2 class="login-title">{{ 'auth.welcome' | translate }}</h2>
 
   <form [formGroup]="loginForm" (ngSubmit)="onLogin()">

@@ -1,10 +1,7 @@
-<div *ngIf="isLoggedIn" class="header">
-  <span>👋 Привіт, {{ userEmail }}</span>
-  <button (click)="logout()">Вийти</button>
-</div>
+<!-- 🔝 Хедер (показуємо лише якщо користувач залогінений і не на /auth/*) -->
+<app-header *ngIf="showHeader && isLoggedIn"></app-header>
 
-<app-language-selector></app-language-selector>
-
+<!-- 📦 Основний вміст -->
 <div class="app-root">
   <router-outlet></router-outlet>
 </div>

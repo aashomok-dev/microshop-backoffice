@@ -3,6 +3,7 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
+  FormControl,
   ReactiveFormsModule
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -32,14 +33,20 @@ export class ForgotPasswordComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  public forgotPasswordForm!: FormGroup;
+  public forgotPasswordForm!: FormGroup<{
+    email: FormControl<string>;
+  }>;
+
   public submitted = false;
   public errorMessage = '';
   public emailSent = false;
+  public successMessage = '';
+  public resetToken: string | null = null;
+  public email: string = '';
 
   ngOnInit(): void {
     this.forgotPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: this.fb.control('', [Validators.required, Validators.email])
     });
   }
 
@@ -51,31 +58,56 @@ export class ForgotPasswordComponent implements OnInit {
     this.submitted = true;
     this.errorMessage = '';
     this.emailSent = false;
+    this.successMessage = '';
 
     if (this.forgotPasswordForm.invalid) return;
 
-    const email = this.f.email.value;
+    this.email = this.f.email.value;
 
     try {
-      const res = await firstValueFrom(this.authService.forgotPassword(email));
-      const token = res?.token;
+      const response = await firstValueFrom(
+        this.authService.forgotPassword(this.email) // 🧠 вже передає у body
+      );
 
-      if (token) {
-        await this.router.navigate(['/reset-password'], {
-          queryParams: { token }
-        });
-      } else {
+      if (response?.token) {
+        sessionStorage.setItem('resetPasswordToken', response.token);
+        this.resetToken = response.token;
         this.emailSent = true;
-        setTimeout(() => {
-          void this.router.navigate(['/auth/login']);
-        }, 3000);
+        this.successMessage = 'auth.emailSentSuccess';
+      } else {
+        this.errorMessage = 'auth.resetRequestFailed';
       }
+
     } catch (err: any) {
-      console.error('❌ Помилка при запиті на відновлення пароля:', err);
+      console.error('❌ Запит скидання пароля:', err);
+
       this.errorMessage =
         err?.error?.message === 'USER_NOT_FOUND_OR_BLOCKED'
           ? 'auth.userNotFoundOrBlocked'
           : 'auth.resetRequestFailed';
+    }
+  }
+
+  goToLogin(): void {
+    this.router.navigate(['/auth/login']);
+  }
+
+  goToMailbox(): void {
+    const domain = this.email.split('@')[1];
+    const emailDomains: Record<string, string> = {
+      'gmail.com': 'https://mail.google.com',
+      'ukr.net': 'https://mail.ukr.net',
+      'outlook.com': 'https://outlook.live.com',
+      'i.ua': 'https://mail.i.ua',
+      'meta.ua': 'https://mail.meta.ua',
+      'yahoo.com': 'https://mail.yahoo.com'
+    };
+
+    const url = emailDomains[domain];
+    if (url) {
+      window.open(url, '_blank');
+    } else {
+      alert('⚠️ Невідомий поштовий сервіс: ' + domain);
     }
   }
 }

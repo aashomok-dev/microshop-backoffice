@@ -7,12 +7,21 @@
   </ng-container>
 
   <!-- ✅ Успішно -->
-  <p *ngIf="status === 'success'" class="status-text success">
-    ✅ {{ 'auth.emailConfirmationSuccess' | translate }}
-  </p>
+  <ng-container *ngIf="status === 'success'">
+    <p class="status-text success">
+      ✅ {{ translationKey | translate }}
+    </p>
+
+    <!-- ⏳ Таймер для редіректу тільки при confirm-email -->
+    <div *ngIf="messageType === 'confirm-email'" class="info-message">
+      {{ 'auth.redirectingToLogin' | translate:{ seconds: secondsLeft } }}
+    </div>
+  </ng-container>
 
   <!-- ⛔️ Помилка -->
-  <p *ngIf="status === 'error'" class="status-text error">
-    ⛔ {{ 'auth.emailConfirmationError' | translate }}
-  </p>
+  <ng-container *ngIf="status === 'error'">
+    <p class="status-text error">
+      ⛔ {{ translationKey | translate }}
+    </p>
+  </ng-container>
 </div>

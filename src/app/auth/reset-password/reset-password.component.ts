@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import {
   FormGroup,
   Validators,
@@ -28,7 +28,7 @@ import { ButtonComponent } from 'src/app/shared/components/button.component';
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
   private fb = inject(NonNullableFormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -42,7 +42,12 @@ export class ResetPasswordComponent implements OnInit {
   public submitted = false;
   public errorMessage = '';
   public successMessage = '';
+  public successEmail = '';
   public token = '';
+  public loading = false;
+  public validToken = true;
+
+  private timeoutRef: any;
 
   get f() {
     return this.resetPasswordForm.controls;
@@ -51,16 +56,31 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.resetPasswordForm = this.fb.group({
       newPassword: this.fb.control('', [Validators.required, Validators.minLength(6)]),
-      confirmPassword: this.fb.control('', Validators.required)
+      confirmPassword: this.fb.control('', [Validators.required, Validators.minLength(6)])
     });
 
     this.token = this.route.snapshot.queryParamMap.get('token') || '';
+    const savedToken = sessionStorage.getItem('resetPasswordToken');
+
+    if (!this.token || !savedToken || this.token !== savedToken) {
+      this.validToken = false;
+      this.errorMessage = 'auth.invalidResetToken';
+
+      this.timeoutRef = setTimeout(() => {
+        this.router.navigate(['/auth/forgot-password']);
+      }, 10000);
+    }
   }
 
-  public async resetPassword(): Promise<void> {
+  ngOnDestroy(): void {
+    if (this.timeoutRef) clearTimeout(this.timeoutRef);
+  }
+
+  async resetPassword(): Promise<void> {
     this.submitted = true;
     this.errorMessage = '';
     this.successMessage = '';
+    this.successEmail = '';
 
     if (this.resetPasswordForm.invalid) return;
 
@@ -71,19 +91,33 @@ export class ResetPasswordComponent implements OnInit {
       return;
     }
 
-    try {
-      await firstValueFrom(this.authService.resetPassword(this.token, newPassword));
-      this.successMessage = 'auth.resetSuccess';
+    this.loading = true;
 
-      setTimeout(async () => {
-        await this.router.navigate(['/auth/login']);
-      }, 3000);
+    try {
+      const response = await firstValueFrom(
+        this.authService.resetPassword(this.token, newPassword)
+      );
+
+      sessionStorage.removeItem('resetPasswordToken');
+
+      this.successEmail = response?.userEmail || '';
+      this.successMessage = 'auth.resetSuccessWithEmail';
+      this.loading = false;
+
     } catch (err: any) {
       console.error('❌ Reset error:', err);
+
       this.errorMessage =
         err?.error?.message === 'INVALID_OR_EXPIRED_TOKEN'
           ? 'auth.invalidResetToken'
           : 'auth.resetFailed';
+
+      this.loading = false;
     }
+  }
+
+  // 🧭 Повернення до логіну вручну
+  public goToLogin(): void {
+    this.router.navigate(['/auth/login']);
   }
 }

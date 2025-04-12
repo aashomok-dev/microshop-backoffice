@@ -1,41 +1,45 @@
-@import '../login/login.component.scss'; // ✅ Підключаємо стилі login.scss
+@import '../login/login.component.scss'; // ✅ Наслідуємо базові стилі з login
 
+// 📦 Обгортка реєстраційної форми
 .register-container {
-  @extend .login-container; // ✅ Використовуємо ті ж стилі, що і в login
+  @extend .login-container;
 }
 
+// 📌 Заголовок
 .register-title {
-  @extend .login-title; // ✅ Наслідуємо стиль заголовка
+  @extend .login-title;
+  text-transform: none; // 🔠 Тільки перша літера велика, без CAPS LOCK
+  margin-bottom: 24px;
 }
 
+// 🧾 Групи форм
 .form-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
-  position: relative; // ✅ Для правильного розміщення іконок
+  margin-bottom: 16px;
+  position: relative;
 }
 
+// 🏷️ Стилізація label
 label {
   @extend label;
 }
 
+// ✏️ Стилі полів
 input {
   @extend input;
-  padding-right: 40px; // ✅ Додаємо місце для іконки ока (пароль)
+  padding-right: 40px; // 👁 Місце для іконки-перемикача
 }
 
+// 🔐 Контейнер для пароля
 .password-container {
   display: flex;
   flex-direction: column;
   position: relative;
-  margin-bottom: 15px; // ✅ Виправлений відступ, щоб збалансувати розташування
+  margin-bottom: 12px;
 }
 
-// ✅ Виправлено відступ між "Пароль" і "Підтвердити пароль"
-.password-container {
-  margin-bottom: 10px; // ❗️ Зменшено відступ
-}
-
+// 🔐 Обгортка поля з іконкою
 .password-wrapper {
   position: relative;
   display: flex;
@@ -43,7 +47,7 @@ input {
 
   input {
     width: 100%;
-    padding-right: 45px; // ✅ Місце для іконки ока
+    padding-right: 45px;
   }
 
   .password-toggle {
@@ -68,10 +72,45 @@ input {
   }
 }
 
+// 🔘 Кнопка
 button {
   @extend button;
 }
 
-.auth-links {
-  @extend .login-links;
+// ⚠️ Помилки
+.error-message {
+  color: #ff6b6b;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: -10px;
+  margin-bottom: 12px;
+}
+
+// ✅ Повідомлення про успіх
+.success-message {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #2ecc71;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+
+// 🔙 Центроване посилання "Назад до входу"
+.back-to-login {
+  margin-top: 20px;
+  text-align: center;
+
+  a {
+    font-weight: bold;
+    font-size: 14px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #99aab5;
+    }
+  }
 }

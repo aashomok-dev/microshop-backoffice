@@ -1,21 +1,15 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { AuthService } from './services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
-// ❗️ Гуард став функціональним (CanActivateFn), не клас
-// Тому НЕ потрібно додавати його до providers вручну
-
 @NgModule({
-  imports: [HttpClientModule],
   providers: [
     AuthService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
+    CookieService,
+    provideHttpClient(withInterceptors([AuthInterceptor])) // Правильне підключення функціонального інтерсептора
   ]
 })
 export class CoreModule {

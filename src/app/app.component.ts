@@ -1,13 +1,18 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
-import { AuthService } from './core/services/auth.service'; // ✅ Виправлений шлях
+import { filter } from 'rxjs';
+import { AuthService } from './core/services/auth.service';
+import { HeaderComponent } from './shared/components/header.component'; // ✅ Підключаємо хедер
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, LanguageSelectorComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    HeaderComponent // ✅ Імпортуємо тільки хедер
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -15,24 +20,18 @@ export class AppComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  public showHeader = true;
+
+  constructor() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      const url = event.urlAfterRedirects;
+      this.showHeader = !url.startsWith('/auth'); // ❌ приховуємо хедер на сторінках /auth
+    });
+  }
+
   get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
-  }
-
-  get userEmail(): string | null {
-    const token = this.authService.getToken();
-    if (!token) return null;
-
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.sub || payload.email || null;
-    } catch {
-      return null;
-    }
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }

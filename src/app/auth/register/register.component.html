@@ -1,6 +1,8 @@
 <div class="register-container">
+  <!-- Заголовок -->
   <h2 class="register-title">{{ 'auth.registerTitle' | translate }}</h2>
 
+  <!-- 📋 Форма -->
   <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
     <!-- 👤 Ім'я -->
     <app-input
@@ -77,10 +79,10 @@
     <app-button type="submit" [disabled]="registerForm.invalid">
       {{ 'auth.registerBtn' | translate }}
     </app-button>
-
-    <!-- 🔙 Посилання -->
-    <div class="auth-links">
-      <a routerLink="/auth/login">{{ 'auth.backToLogin' | translate }}</a>
-    </div>
   </form>
+
+  <!-- 🔙 Центроване посилання -->
+  <div class="back-to-login">
+    <a routerLink="/auth/login">{{ 'auth.backToLogin' | translate }}</a>
+  </div>
 </div>

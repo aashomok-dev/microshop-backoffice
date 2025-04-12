@@ -11,5 +11,17 @@ import { CommonModule } from '@angular/common';
 export class ButtonComponent {
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
   @Input() disabled = false;
-  @Input() className = ''; // дозволяє передати додаткові класи
+  @Input() loading = false;
+  @Input() className = '';
+  @Input() centered = false; // 🔹 додає можливість центрувати
+
+  get computedClass(): string {
+    const baseClass = 'app-button';
+    const classes = [baseClass];
+
+    if (this.centered) classes.push('centered');
+    if (this.className) classes.push(this.className);
+
+    return classes.join(' ');
+  }
 }

@@ -1,6 +1,7 @@
 .app-button {
   width: 100%;
-  padding: 14px;
+  max-width: 100%;
+  padding: 14px 24px;
   background: linear-gradient(135deg, #5865f2, #4752c4);
   border: none;
   border-radius: 10px;
@@ -11,6 +12,10 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 
   &:hover:not(:disabled) {
     background: linear-gradient(135deg, #4752c4, #3c46b1);
@@ -25,5 +30,31 @@
   &:disabled {
     background: #99aab5;
     cursor: not-allowed;
+  }
+}
+
+/* 🔹 Центрована кнопка з фіксованою шириною */
+.app-button.centered {
+  width: auto;
+  min-width: 200px;
+  margin: 0 auto;
+}
+
+/* 🔁 Спінер для завантаження */
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

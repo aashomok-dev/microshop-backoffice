@@ -1,0 +1,24 @@
+.header {
+  background-color: #ffffff;
+  color: #000;
+  padding: 12px 24px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+
+  button {
+    background-color: #5865f2;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #3c46b1;
+    }
+  }
+}
