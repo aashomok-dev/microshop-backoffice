@@ -1,0 +1,32 @@
+<!-- src/admin/layout/layout.component.html -->
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <nav>
+      <ul>
+        <li><a routerLink="/dashboard/dashboard">📊 Dashboard</a></li>
+        <li><a routerLink="/dashboard/users">👥 Users</a></li>
+        <!-- Можна додати інші пункти меню (Orders, Products тощо) -->
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="admin-header">
+      <div class="logo">
+        <h1>Admin Panel</h1>
+      </div>
+      <div class="user-info">
+        <span>👤 Admin</span>
+        <button (click)="logout()">Logout</button>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <main class="content-area">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

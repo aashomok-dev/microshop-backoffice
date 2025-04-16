@@ -1,8 +1,11 @@
+// src/main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideHttpClient, HttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
+import { importProvidersFrom } from '@angular/core';
 
+// i18n та переклади через ngx-translate
 import {
   TranslateLoader,
   TranslateService,
@@ -15,22 +18,24 @@ import {
   USE_DEFAULT_LANG,
   ISOLATE_TRANSLATE_SERVICE,
   USE_EXTEND,
-  DEFAULT_LANGUAGE
+  DEFAULT_LANGUAGE,
 } from '@ngx-translate/core';
 
 import { HttpLoaderFactory } from './providers/translate-loader';
 import { CustomMissingTranslationHandler } from './providers/custom-missing-translation-handler';
+
+// Глобальні маршрути додатку (lazy loading для auth та admin секцій)
 import { routes } from './app/app.routes';
 
-import { importProvidersFrom } from '@angular/core';
-import { CoreModule } from './app/core/core.module'; // ✅ Підключаємо CoreModule
+// CoreModule — включає guards, інтерсептори, сервіси та інші "ядрові" елементи застосунку
+import { CoreModule } from './app/core/core.module';
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
     provideRouter(routes),
 
-    // 🌍 i18n Translate
+    // Конфігурація ngx-translate для i18n
     {
       provide: TranslateLoader,
       useFactory: HttpLoaderFactory,
@@ -46,7 +51,8 @@ bootstrapApplication(AppComponent, {
     { provide: ISOLATE_TRANSLATE_SERVICE, useValue: false },
     { provide: USE_EXTEND, useValue: true },
 
-    // 🧩 CoreModule: interceptors, guards, services
+    // Підключаємо CoreModule для роботи з guards, інтерсепторами, сервісами
     importProvidersFrom(CoreModule)
   ]
-}).catch(err => console.error(err));
+})
+  .catch(err => console.error(err));

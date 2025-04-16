@@ -1,6 +1,8 @@
+// src/app/core/services/auth.service.ts
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { CookieStorageService } from './cookie.service';
 
 @Injectable({ providedIn: 'root' })
@@ -99,6 +101,23 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/verify-and-get-roles`, this.getJsonHeaders());
   }
 
+  /**
+   * НОВИЙ МЕТОД: Отримання ролі користувача у вигляді Observable<string>.
+   * Припускаємо, що verifyAndGetRoles повертає об'єкт із полем 'roles', яке є масивом.
+   */
+  getUserRole(): Observable<string> {
+    return this.verifyAndGetRoles().pipe(
+      map((response: any) => {
+        // Якщо API повертає масив ролей, вибираємо першу роль
+        if (response && response.roles && response.roles.length > 0) {
+          return response.roles[0];
+        }
+        // Якщо ролей немає, повертаємо дефолтну роль, наприклад "USER"
+        return 'USER';
+      })
+    );
+  }
+
   // 📥 Отримати access token з cookie
   getToken(): string | null {
     return this.cookieStorage.getAccessToken();
@@ -114,7 +133,7 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  // 🔧 Заголовки
+  // 🔧 Заголовки для JSON-запитів
   private getJsonHeaders() {
     return {
       headers: new HttpHeaders({

@@ -1,9 +1,10 @@
+// src/app/app.component.ts
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
-import { HeaderComponent } from './shared/components/header.component'; // ✅ Підключаємо хедер
+import { HeaderComponent } from './shared/components/header.component';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import { HeaderComponent } from './shared/components/header.component'; // ✅ �
   imports: [
     CommonModule,
     RouterModule,
-    HeaderComponent // ✅ Імпортуємо тільки хедер
+    HeaderComponent // Використовуємо глобальний Header для публічних сторінок (якщо потрібно)
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
@@ -20,6 +21,7 @@ export class AppComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  // Показувати глобальний Header лише на публічних сторінках, не на /auth та /dashboard
   public showHeader = true;
 
   constructor() {
@@ -27,7 +29,8 @@ export class AppComponent {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       const url = event.urlAfterRedirects;
-      this.showHeader = !url.startsWith('/auth'); // ❌ приховуємо хедер на сторінках /auth
+      // Приховуємо Header, якщо маршрут починається з '/auth' або '/dashboard'
+      this.showHeader = !(url.startsWith('/auth') || url.startsWith('/dashboard'));
     });
   }
 

@@ -1,0 +1,101 @@
+/* src/app/admin/users/user-list/user-list.component.scss */
+
+.user-list {
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 100%;
+  background-color: #1f1f2e;  // темний фон для адмін-панелі
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: #fff;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+  }
+
+  .loading {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #ffcc00;  // акцентний колір для стану завантаження
+    margin-bottom: 15px;
+  }
+
+  .error {
+    text-align: center;
+    color: #ff6666;  // червоний колір для повідомлень про помилки
+    margin-bottom: 15px;
+    font-size: 1rem;
+  }
+
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+
+    thead {
+      background-color: #2b2b3a;
+
+      th {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 2px solid #444;
+        font-size: 1rem;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid #333;
+
+        &:nth-child(even) {
+          background-color: #242434;
+        }
+
+        td {
+          padding: 10px;
+          font-size: 0.95rem;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  .actions {
+    text-align: center;
+    margin-top: 10px;
+
+    button {
+      background-color: #007bff;
+      border: none;
+      color: #fff;
+      padding: 10px 15px;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  // Стилізація для кнопок в таблиці (Редагувати, Видалити)
+  table button {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}

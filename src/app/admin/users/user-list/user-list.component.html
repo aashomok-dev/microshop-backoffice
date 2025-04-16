@@ -1,0 +1,46 @@
+<!-- src/app/admin/users/user-list/user-list.component.html -->
+<div class="user-list">
+  <h2>Список користувачів</h2>
+
+  <div *ngIf="loading" class="loading">
+    Завантаження користувачів...
+  </div>
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <table *ngIf="!loading && users.length > 0" class="users-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Ім'я</th>
+      <th>Прізвище</th>
+      <th>Телефон</th>
+      <th>Дії</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.userId }}</td>
+      <td>{{ user.userEmail }}</td>
+      <td>{{ user.firstName }}</td>
+      <td>{{ user.lastName }}</td>
+      <td>{{ user.phoneNumber }}</td>
+      <td>
+        <button [routerLink]="['/dashboard/users/edit', user.userId]">Редагувати</button>
+        <button (click)="onDeleteUser(user.userId)">Видалити</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && users.length === 0">
+    Користувачів не знайдено.
+  </div>
+
+  <div class="actions">
+    <button [routerLink]="['/dashboard/users/create']">Створити користувача</button>
+  </div>
+</div>

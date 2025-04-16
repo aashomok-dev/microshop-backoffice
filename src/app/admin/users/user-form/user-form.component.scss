@@ -1,0 +1,88 @@
+/* src/app/admin/users/user-form/user-form.component.scss */
+
+.user-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #1f1f2e;  // темний фон для адмін-панелі
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: #fff;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+  }
+
+  .loading {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #ffcc00;  // виділений колір для статусу завантаження
+  }
+
+  .error {
+    color: #ff6666;  // червоний для помилок
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 1rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 1rem;
+      border: 1px solid #333;
+      border-radius: 4px;
+      background-color: #242434;
+      color: #fff;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+    }
+  }
+
+  .form-actions {
+    text-align: center;
+    margin-top: 20px;
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+
+      &:disabled {
+        background-color: #444;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .error-message {
+    margin-top: 15px;
+    text-align: center;
+    color: #ff6666;
+    font-size: 1rem;
+  }
+}

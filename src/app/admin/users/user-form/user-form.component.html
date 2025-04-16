@@ -1,0 +1,60 @@
+<!-- src/app/admin/users/user-form/user-form.component.html -->
+<div class="user-form">
+  <h2>{{ isEditMode ? 'Редагувати користувача' : 'Створити користувача' }}</h2>
+
+  <!-- Повідомлення про завантаження -->
+  <div *ngIf="loading" class="loading">
+    Будь ласка, зачекайте...
+  </div>
+
+  <!-- Форма користувача -->
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <!-- Поле Email -->
+    <div class="form-group">
+      <label for="userEmail">Email:</label>
+      <input id="userEmail" type="email" formControlName="userEmail">
+      <div *ngIf="isInvalidAndTouched('userEmail')" class="error">
+        Будь ласка, введіть коректний email.
+      </div>
+    </div>
+
+    <!-- Поле Ім'я -->
+    <div class="form-group">
+      <label for="firstName">Ім'я:</label>
+      <input id="firstName" type="text" formControlName="firstName">
+      <div *ngIf="isInvalidAndTouched('firstName')" class="error">
+        Ім'я є обов'язковим.
+      </div>
+    </div>
+
+    <!-- Поле Прізвище -->
+    <div class="form-group">
+      <label for="lastName">Прізвище:</label>
+      <input id="lastName" type="text" formControlName="lastName">
+      <div *ngIf="isInvalidAndTouched('lastName')" class="error">
+        Прізвище є обов'язковим.
+      </div>
+    </div>
+
+    <!-- Поле Телефон -->
+    <div class="form-group">
+      <label for="phoneNumber">Телефон:</label>
+      <input id="phoneNumber" type="text" formControlName="phoneNumber">
+      <div *ngIf="isInvalidAndTouched('phoneNumber')" class="error">
+        Телефон є обов'язковим.
+      </div>
+    </div>
+
+    <!-- Кнопка відправки форми -->
+    <div class="form-actions">
+      <button type="submit" [disabled]="loading">
+        {{ isEditMode ? 'Оновити' : 'Створити' }}
+      </button>
+    </div>
+
+    <!-- Повідомлення про помилку -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </form>
+</div>
