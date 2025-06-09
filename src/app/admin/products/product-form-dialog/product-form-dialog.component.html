@@ -1,0 +1,70 @@
+<h2 mat-dialog-title>{{data.id ? 'Edit' : 'Add'}} Product</h2>
+
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="productName" required>
+            <mat-error *ngIf="productForm.get('productName')?.hasError('required')">
+                Name is required
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="productDescription" required rows="3"></textarea>
+            <mat-error *ngIf="productForm.get('productDescription')?.hasError('required')">
+                Description is required
+            </mat-error>
+        </mat-form-field>
+
+        <div formGroupName="productPrice">
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Price</mat-label>
+                <input matInput type="number" formControlName="amount" required>
+                <mat-error *ngIf="productForm.get('productPrice.amount')?.hasError('required')">
+                    Price is required
+                </mat-error>
+                <mat-error *ngIf="productForm.get('productPrice.amount')?.hasError('min')">
+                    Price must be positive
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Quantity</mat-label>
+            <input matInput type="number" formControlName="quantityInStock" required>
+            <mat-error *ngIf="productForm.get('quantityInStock')?.hasError('required')">
+                Quantity is required
+            </mat-error>
+            <mat-error *ngIf="productForm.get('quantityInStock')?.hasError('min')">
+                Quantity must be positive
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Brand</mat-label>
+            <input matInput formControlName="productBrand" required>
+            <mat-error *ngIf="productForm.get('productBrand')?.hasError('required')">
+                Brand is required
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>SKU</mat-label>
+            <input matInput formControlName="stockKeepingUnit" required>
+            <mat-error *ngIf="productForm.get('stockKeepingUnit')?.hasError('required')">
+                SKU is required
+            </mat-error>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="active">Active</mat-checkbox>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button type="button" (click)="onCancel()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!productForm.valid">
+            {{data.id ? 'Update' : 'Create'}}
+        </button>
+    </mat-dialog-actions>
+</form>

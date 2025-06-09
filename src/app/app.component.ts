@@ -5,6 +5,16 @@ import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
 import { HeaderComponent } from './shared/components/header.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +22,22 @@ import { HeaderComponent } from './shared/components/header.component';
   imports: [
     CommonModule,
     RouterModule,
-    HeaderComponent // Використовуємо глобальний Header для публічних сторінок (якщо потрібно)
+    HeaderComponent,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSlideToggleModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent {
   private authService = inject(AuthService);
   private router = inject(Router);

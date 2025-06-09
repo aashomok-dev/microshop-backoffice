@@ -5,7 +5,7 @@
     "analytics": false
   },
   "projects": {
-    "fullStek": {
+    "microshop-backoffice": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -14,7 +14,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/fullStek",
+            "outputPath": "dist/microshop-backoffice",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -60,14 +60,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "fullStek:build"
+            "buildTarget": "microshop-backoffice:build"
           },
           "configurations": {
             "production": {
-              "buildTarget": "fullStek:build:production"
+              "buildTarget": "microshop-backoffice:build:production"
             },
             "development": {
-              "buildTarget": "fullStek:build:development"
+              "buildTarget": "microshop-backoffice:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -86,6 +86,5 @@
         }
       }
     }
-  },
-  "defaultProject": "fullStek"
+  }
 }
