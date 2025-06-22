@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { CookieStorageService } from './cookie.service';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -11,7 +12,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private cookieStorage: CookieStorageService
+    private cookieStorage: CookieStorageService,
+    private router: Router
   ) {}
 
   // 🔐 Логін
@@ -126,6 +128,7 @@ export class AuthService {
   // ❌ Вийти з системи
   logout(): void {
     this.cookieStorage.deleteAccessToken();
+    void this.router.navigate(['/auth/login']);  // Choose one consistent redirect
   }
 
   // ✅ Перевірка статусу
