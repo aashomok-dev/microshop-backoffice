@@ -37,17 +37,13 @@ export class AuthService {
   }
 
   // 📝 Реєстрація
-  register(data: {
-    email: string;
-    password: string;
-    name: string;
-    phone: string;
-  }): Observable<any> {
+  register(data: { email: string; password: string; name: string; phone: string; role_id: number }): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, {
       userEmail: data.email,
       password: data.password,
       firstName: data.name,
       phoneNumber: data.phone,
+      userRoleId: data.role_id,
     }, this.getJsonHeaders());
   }
 
