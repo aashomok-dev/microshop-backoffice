@@ -57,6 +57,12 @@ For end-to-end (e2e) testing, run:
 ng e2e
 ```
 
+Test user for BackOffice:
+```plaintext
+    email:    a.a@gmail.com
+    password: password
+```
+
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
 ## Additional Resources
