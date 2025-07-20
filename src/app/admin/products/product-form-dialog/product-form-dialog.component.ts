@@ -37,7 +37,7 @@ export class ProductFormDialogComponent {
       productName: [data.productName || '', [Validators.required]],
       productDescription: [data.productDescription || '', [Validators.required]],
       productPrice: this.fb.group({
-        amount: [data.productPrice?.amount || 0, [Validators.required, Validators.min(0)]],
+        amount: [data.productPrice || 0, [Validators.required, Validators.min(0)]],
         currencyUnit: this.fb.group({
           code: ['USD'],
           symbol: ['$']

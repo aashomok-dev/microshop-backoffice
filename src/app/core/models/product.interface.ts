@@ -5,8 +5,8 @@ export interface Product {
     sellerId: string;
     productName: string;
     productDescription: string;
-    productPrice: MoneyAmount;
-    discountedPrice?: MoneyAmount | null;
+    productPrice: number;
+    discountedPrice?: number | null;
     productBrand: string;
     stockKeepingUnit: string;
     quantityInStock: number;
@@ -18,16 +18,6 @@ export interface Product {
     creationDate: string;
     lastUpdatedDate: string;
     active: boolean;
-}
-
-interface MoneyAmount {
-    amount: number;
-    currencyUnit: CurrencyUnit;
-}
-
-interface CurrencyUnit {
-    code: string;
-    symbol: string;
 }
 
 export interface ProductPage {

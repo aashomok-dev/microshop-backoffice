@@ -16,9 +16,9 @@
     </div>
 
     <div class="detail-row">
-        <strong>Price:</strong> {{data.productPrice.amount | currency:data.productPrice.currencyUnit.code}}
+        <strong>Price:</strong> {{data.productPrice | currency:'USD'}}
         <span *ngIf="data.discountedPrice" class="discounted-price">
-            (Discounted: {{data.discountedPrice.amount | currency:data.discountedPrice.currencyUnit.code}})
+            (Discounted: {{data.discountedPrice | currency:'USD'}})
         </span>
     </div>
 
