@@ -22,6 +22,8 @@
     "src/test.ts",
     "src/**/*.spec.ts", // 🔥 Исключаем тестовые файлы
     "src/app/auth/auth.module.ts",
+    "src/app/core/models/*",
+    "src/app/core/components/*",
     "src/app/app.config.ts",
     "src/app/auth/auth-routing.module.ts",
     "src/app/app.config.ts"

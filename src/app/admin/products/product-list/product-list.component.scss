@@ -1,0 +1,178 @@
+.products-container {
+    padding: 20px;
+    color: white;
+    background-color: #1f1f2e;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    height: calc(100vh - 100px); // Adjust height to viewport
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        h2 {
+            margin: 0;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        &-actions {
+            display: flex;
+            gap: 10px;
+
+            button {
+                background-color: #007bff;
+                border: none;
+                color: #fff;
+                padding: 10px 15px;
+                font-size: 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+
+                mat-icon {
+                    font-size: 20px;
+                    height: 20px;
+                    width: 20px;
+                }
+            }
+        }
+    }
+
+    .table-container {
+        flex: 1;
+        overflow: auto;
+        margin-bottom: 20px;
+        
+        // Add scrollbar styling
+        &::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #1f1f2e;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #4a4a5f;
+            border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: #5a5a6f;
+        }
+    }
+
+    .mat-mdc-table {
+        width: 100%;
+        background: #242434;
+
+        .mdc-data-table__header-row {
+            background: #2b2b3a;
+
+            .mdc-data-table__header-cell {
+                color: white;
+                font-weight: 500;
+                border-bottom: 2px solid #444;
+                padding: 10px 16px;
+            }
+        }
+
+        .mdc-data-table__row {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-bottom: 1px solid #333;
+
+            &:nth-child(even) {
+                background-color: #1f1f2e;
+            }
+
+            &:hover {
+                background-color: #2b2b3a !important;
+            }
+
+            .mdc-data-table__cell {
+                color: white;
+                padding: 10px 16px;
+                font-size: 0.95rem;
+            }
+        }
+
+        .mat-column-actions {
+            width: 200px;
+            text-align: right;
+            white-space: nowrap;
+
+            button {
+                background-color: #007bff;
+                border: none;
+                color: #fff;
+                padding: 5px 10px;
+                margin-right: 5px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 0.85rem;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+
+        .mat-column-active {
+            width: 100px;
+            text-align: center;
+            padding: 0 8px;
+        }
+    }
+
+    // Make sure paginator stays at bottom
+    .mat-mdc-paginator {
+        margin-top: auto;
+    }
+
+    .discounted-price {
+        color: #4caf50;
+        margin-left: 8px;
+    }
+
+    .active-icon {
+        color: #4caf50;
+    }
+}
+
+::ng-deep {
+    .mat-mdc-paginator {
+        background: #1f1f2e !important;
+
+        .mat-mdc-paginator-container {
+            color: white;
+        }
+
+        .mat-mdc-paginator-range-label,
+        .mat-mdc-paginator-page-size-label {
+            color: white;
+        }
+
+        .mat-mdc-paginator-navigation-icon {
+            color: white;
+        }
+    }
+}

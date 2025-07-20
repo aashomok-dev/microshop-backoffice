@@ -1,0 +1,59 @@
+:host {
+  .mat-mdc-dialog-surface {
+    background: #424242;
+    color: white;
+  }
+}
+
+.product-details {
+  padding: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: white;
+  background: #424242;
+}
+
+.product-image {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.detail-row {
+  margin-bottom: 15px;
+
+  strong {
+    color: #ffffff;
+    min-width: 120px;
+    display: inline-block;
+  }
+}
+
+.discounted-price {
+  color: #ff4444;
+  margin-left: 10px;
+}
+
+.sub-detail {
+  margin-left: 20px;
+  margin-top: 5px;
+  color: #dddddd;
+}
+
+mat-dialog-content {
+  background: #424242;
+}
+
+mat-dialog-actions {
+  background: #424242;
+  padding: 16px;
+  margin-bottom: 0;
+}
+
+mat-dialog-title {
+  color: white;
+  background: #424242;
+  padding: 16px 16px 0;
+  margin: 0;
+}

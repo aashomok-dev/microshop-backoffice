@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>Product Details</h2>
+<mat-dialog-content class="product-details">
+    <img [src]="data.productImageUrl" [alt]="data.productName" class="product-image"
+         *ngIf="data.productImageUrl">
+
+    <div class="detail-row">
+        <strong>Name:</strong> {{data.productName}}
+    </div>
+
+    <div class="detail-row">
+        <strong>Brand:</strong> {{data.productBrand}}
+    </div>
+
+    <div class="detail-row">
+        <strong>Description:</strong> {{data.productDescription}}
+    </div>
+
+    <div class="detail-row">
+        <strong>Price:</strong> {{data.productPrice | currency:'USD'}}
+        <span *ngIf="data.discountedPrice" class="discounted-price">
+            (Discounted: {{data.discountedPrice | currency:'USD'}})
+        </span>
+    </div>
+
+    <div class="detail-row">
+        <strong>SKU:</strong> {{data.stockKeepingUnit}}
+    </div>
+
+    <div class="detail-row">
+        <strong>Stock:</strong> {{data.quantityInStock}}
+    </div>
+
+    <div class="detail-row">
+        <strong>Weight:</strong> {{data.weight}}{{data.weightUnit}}
+    </div>
+
+    <div class="detail-row">
+        <strong>Categories:</strong> {{data.categoryIds.join(', ')}}
+    </div>
+
+    <div class="detail-row" *ngIf="data.additionalProperties">
+        <strong>Additional Properties:</strong>
+        <div *ngFor="let prop of additionalPropertiesArray" class="sub-detail">
+            {{prop.key}}: {{prop.value}}
+        </div>
+    </div>
+
+    <div class="detail-row">
+        <strong>Created:</strong> {{data.creationDate | date:'medium'}}
+    </div>
+
+    <div class="detail-row">
+        <strong>Last Updated:</strong> {{data.lastUpdatedDate | date:'medium'}}
+    </div>
+
+    <div class="detail-row">
+        <strong>Status:</strong> {{data.active ? 'Active' : 'Inactive'}}
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="dialogRef.close()">Close</button>
+</mat-dialog-actions>

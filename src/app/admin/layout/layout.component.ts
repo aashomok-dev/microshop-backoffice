@@ -1,7 +1,8 @@
 // src/admin/layout/layout.component.ts
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-admin-layout',
@@ -11,8 +12,9 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent {
+  private authService = inject(AuthService);
+
   logout(): void {
-    // Тут реалізуємо логіку виходу: видалення токенів, редірект на логін тощо
-    console.log('Logout initiated');
+    this.authService.logout();
   }
 }
